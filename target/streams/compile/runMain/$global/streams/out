@@ -1,0 +1,18 @@
+[info] Running bismo.DriverMain VerilatedTester /app/git/bismo/build/2x64x2/VerilatedTester/hw/driver /app/git/bismo/fpga-tidbits/src/main/resources/cpp/platform-wrapper-regdriver
+[debug] Waiting for threads to exit or System.exit to be called.
+[debug]   Classpath:
+[debug] 	/app/git/bismo/target/scala-2.11/classes
+[debug] 	/root/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.6.jar
+[debug] 	/root/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.6.jar
+[debug] 	/root/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.6.jar
+[debug] 	/root/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.3.jar
+[debug] 	/root/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.3.jar
+[debug] 	/root/.ivy2/cache/edu.berkeley.cs/chisel_2.11/jars/chisel_2.11-2.2.39.jar
+[debug] 	/root/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-2.2.5.jar
+[debug] 	/root/.ivy2/cache/org.scalacheck/scalacheck_2.11/jars/scalacheck_2.11-1.12.5.jar
+[debug] 	/root/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar
+[debug] Waiting for thread run-main-0 to terminate.
+[debug] 	Thread run-main-0 exited.
+[debug] Interrupting remaining threads (should be all daemons).
+[debug] Sandboxed run complete..
+[debug] Exited with code 0
