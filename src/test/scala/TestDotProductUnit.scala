@@ -42,7 +42,7 @@ class TestDotProductUnit extends JUnitSuite {
   class DotProductUnitTester(c: DotProductUnit) extends Tester(c) {
     val r = scala.util.Random
     // number of re-runs for each test
-    val num_seqs = 100
+    val num_seqs = 1
     // number of bits in each operand
     val pc_len = c.p.inpWidth
     // max shift steps for random input
