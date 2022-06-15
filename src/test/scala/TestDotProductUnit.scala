@@ -213,9 +213,9 @@ class TestDotProductUnit extends JUnitSuite {
       popc_width <- for(b <- 2 to 2) yield 1 << b
     } {
       // function that instantiates the Module to be tested
-      println("Strating test, inputWidth = ",popc_width)
-      println("popc_extra_regs = ",popc_extra_regs)
-      println("dpu_extra_regs = ",dpu_extra_regs)
+      println("Strating test, inputWidth = "+popc_width)
+      println("popc_extra_regs = "+popc_extra_regs)
+      println("dpu_extra_regs = "+dpu_extra_regs)
       val p = new DotProductUnitParams(
         accWidth = 32, inpWidth = popc_width
       )
