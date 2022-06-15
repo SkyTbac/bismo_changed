@@ -85,6 +85,7 @@ class TestDotProductUnit extends JUnitSuite {
     // TODO combine all into single test with controllable param. ranges
     // test 1: binary, unsigned vectors that fit into popCountWidth
     for(i <- 1 to num_seqs) {
+      println("test 1: binary, unsigned vectors that fit into popCountWidth")
       // clear accumulator between runs
       clearAcc()
       // produce random binary test vectors and golden result
@@ -109,6 +110,7 @@ class TestDotProductUnit extends JUnitSuite {
       // produce seq_len different popcount vectors, each pc_len bits
       // min length of seq_len is 1, no max len (barring accumulator overflow)
       // but set to 16 here for quicker testing
+      println("test 2: binary, unsigned vectors that do not fit into popCountWidth")
       val seq_len = 1 + r.nextInt(17)
       val bit_len = pc_len * seq_len
       // produce random binary test vectors and golden result
@@ -142,6 +144,7 @@ class TestDotProductUnit extends JUnitSuite {
       // produce seq_len different popcount vectors, each pc_len bits
       // min length of seq_len is 1, no max len (barring accumulator overflow)
       // but set to 16 here for quicker testing
+      println("test 3: binary, unsigned vectors that do not fit into popCountWidth")
       val seq_len = 1 + r.nextInt(17)
       val bit_len = pc_len * seq_len
       // precision in bits, each between 1 and max_shift/2 bits
@@ -210,7 +213,7 @@ class TestDotProductUnit extends JUnitSuite {
       popc_extra_regs <- 0 to 1
       dpu_extra_regs <- 0 to 1
       //这里指的是popc_width=2^5 BlackBoxCompressor中定义至少为32位
-      popc_width <- for(b <- 5 to 5) yield 1 << b
+      popc_width <- for(b <- 2 to 2) yield 1 << b
     } {
       // function that instantiates the Module to be tested
       println("Strating test, inputWidth = "+popc_width)
