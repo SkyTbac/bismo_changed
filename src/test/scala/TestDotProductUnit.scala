@@ -209,8 +209,8 @@ class TestDotProductUnit extends JUnitSuite {
     for{
       popc_extra_regs <- 0 to 1
       dpu_extra_regs <- 0 to 1
-      //这里指的是popc_width=2^5, 将其改为3
-      popc_width <- for(b <- 3 to 3) yield 1 << b
+      //这里指的是popc_width=2^5 BlackBoxCompressor中定义至少为32位
+      popc_width <- for(b <- 5 to 5) yield 1 << b
     } {
       // function that instantiates the Module to be tested
       println("Strating test, inputWidth = "+popc_width)
