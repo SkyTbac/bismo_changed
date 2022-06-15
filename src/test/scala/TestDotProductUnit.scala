@@ -45,7 +45,7 @@ class TestDotProductUnit extends JUnitSuite {
     val num_seqs = 1
     // number of bits in each operand
     val pc_len = c.p.inpWidth
-    // max shift steps for random input
+    // max shift steps for random input 原来是8 改成2
     val max_shift = 8
     // latency from inputs changed to accumulate update
     val latency = c.p.getLatency()
@@ -209,8 +209,8 @@ class TestDotProductUnit extends JUnitSuite {
     for{
       popc_extra_regs <- 0 to 1
       dpu_extra_regs <- 0 to 1
-      //这里指的是popc_width=2^5, 将其改为2
-      popc_width <- for(b <- 2 to 2) yield 1 << b
+      //这里指的是popc_width=2^5, 将其改为3
+      popc_width <- for(b <- 3 to 3) yield 1 << b
     } {
       // function that instantiates the Module to be tested
       println("Strating test, inputWidth = "+popc_width)
