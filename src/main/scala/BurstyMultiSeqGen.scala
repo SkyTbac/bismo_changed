@@ -86,18 +86,18 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
         regMaxCount := io.in.bits.count  // module文件56行 poke(c.io.in.valid, 1)
         // calculate the max count we can reach with bursts
         regMaxCountWithBurst := Cat((io.in.bits.count >> p.burstShift), UInt(0, width=p.burstShift))
-        printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
         // start by using burst step size
-        regStep := io.in.bits.step << p.burstShift
+        regStep := io.in.bits.step << p.burstShift  //regStep左移 变大 连续取多个
       }
     }
 
     is(sBurst) {
       // produce burst-sized steps
+      printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
       when(regCounter === regMaxCountWithBurst) {
         regState := sRun
         // switch back to unit step size
-        regStep := regStep >> p.burstShift
+        regStep := regStep >> p.burstShift  //regStep右移 变回1 开始一次一个
       }.otherwise {
         io.out.valid := Bool(true)
         when(io.out.ready) {
