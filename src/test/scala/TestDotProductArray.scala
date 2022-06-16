@@ -43,11 +43,12 @@ class TestDotProductArray extends JUnitSuite {
     class DotProductArrayTester(c: DotProductArray) extends Tester(c) {
       val r = scala.util.Random
       // number of re-runs for each test
-      val num_seqs = 100
+      val num_seqs = 1
       // number of bits in each operand
       val pc_len = c.p.dpuParams.inpWidth
       // max shift steps for random input
       val max_shift = BISMOLimits.maxShift
+      println("Set maxShift = "+max_shift)
       // spatial dimensions of the array
       val m = c.p.m
       val n = c.p.n
@@ -80,52 +81,66 @@ class TestDotProductArray extends JUnitSuite {
       }
 
       for (i ← 1 to num_seqs) {
+        //这里的矩阵是int型！！！！
         // generate two random int matrices a[m_test][k_test] and b[n_test][k_test] s.t.
         // m_test % m = 0, n_test % n = 0, k_test % pc_len = 0
-        val seq_len = 1 + r.nextInt(17)
+        val seq_len = 1 + r.nextInt(17) //生成一个0-16的随数值 这个就是K 
         val k_test = pc_len * seq_len
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m
         val n_test = n
+        println("Set matrix left = "+m+"*"+seq_len)
+        println("Set matrix left = "+seq_len+"*"+n)
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
+        // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
         val precA = 1 + r.nextInt(max_shift / 2)
         val precB = 1 + r.nextInt(max_shift / 2)
+        println("Bit width of elements(integer) in left matrix a = "+precA)
+        println("Bit width of elements(integer) in right matrix b = "+precB)
         assert(precA + precB <= max_shift)
         // produce random binary test vectors and golden result
-        val negA = r.nextBoolean
-        val negB = r.nextBoolean
+        //val negA = r.nextBoolean
+        //val negB = r.nextBoolean
+        val negA = false
+        val negB = false
+        // 矩阵a m*k 矩阵b k*n 这里b被转置了方便后面数据转换-147行
         val a = BISMOTestHelpers.randomIntMatrix(m_test, k_test, precA, negA)
-        val b = BISMOTestHelpers.randomIntMatrix(m_test, k_test, precB, negB)
+        val b = BISMOTestHelpers.randomIntMatrix(n_test, k_test, precB, negB)
         val golden = BISMOTestHelpers.matrixProduct(a, b)
         // clear the accumulator
         clearAcc(true)
         // iterate over each combination of bit positions for bit serial
-        for(slice <- precA + precB - 2 to 0 by -1) {
-          val z1 = if(slice < precB) {0} else {slice - precB + 1}
-          val z2 = if(slice < precA) {0} else {slice - precA + 1}
-          for(j <- slice - z2 to z1 by -1) {
+        for(slice <- precA + precB - 2 to 0 by -1) {  //最高的相加后移位数为precA-1+precB-1  slice为总移位数
+          val z1 = if(slice < precB) {0} else {slice - (precB - 1)}   //左边矩阵最少需要移位数 (移位和减去右边矩阵最大位)
+          val z2 = if(slice < precA) {0} else {slice - (precA - 1)}   //右边矩阵最少需要移位数
+          for(j <- slice - z2 to z1 by -1) {  //枚举左边矩阵需移位数 至少z1  最多slice - z2
             val bitA = j
             val bitB = slice-j
+            println("The bits LEFT matrix need shift "+bitA)
+            println("The bits RIGHT matrix need shift "+bitB)
             val negbitA = negA & (bitA == precA-1)
             val negbitB = negB & (bitB == precB-1)
             val doNeg = if(negbitA ^ negbitB) 1 else 0
             for(s <- 0 to seq_len-1) {
-              poke(c.io.clear_acc, 0)
+              poke(c.io.clear_acc, 0) //不能清零
               poke(c.io.negate, doNeg)
               if(j == slice - z2 && s == 0) {
                 // new wavefront
                 // shift accumulator then accumulate
+                //此时所有需要移位j位的
                 poke(c.io.shiftAmount, 1)
               } else {
                 // within same wavefront (sum of bit positions)
                 // regular accumulate
                 poke(c.io.shiftAmount, 0)
               }
+
               // insert stimulus for left-hand-side matrix tile
               for (i_m ← 0 to m - 1) {
                 val seqA_bs = BISMOTestHelpers.intVectorToBitSerial(a(i_m), precA)
                 val curA = seqA_bs(bitA).slice(s * pc_len, (s + 1) * pc_len)
+                //
                 poke(c.io.a(i_m), scala.math.BigInt.apply(curA.mkString, 2))
               }
               // insert stimulus for right-hand-side matrix tile
@@ -157,8 +172,8 @@ class TestDotProductArray extends JUnitSuite {
     // Chisel arguments to pass to chiselMainTest
     def testArgs = BISMOTestHelpers.stdArgs
     // function that instantiates the Module to be tested
-    val pDP = new DotProductUnitParams(32, 32)
-    val p = new DotProductArrayParams(pDP, 4, 4, 0)
+    val pDP = new DotProductUnitParams(8, 4)
+    val p = new DotProductArrayParams(pDP, 3, 3, 0)
     def testModuleInstFxn = () ⇒ { Module(new DotProductArray(p)) }
     // function that instantiates the Tester to test the Module
     def testTesterInstFxn = (c: DotProductArray) ⇒ new DotProductArrayTester(c)
