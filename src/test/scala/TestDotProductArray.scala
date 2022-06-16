@@ -84,14 +84,14 @@ class TestDotProductArray extends JUnitSuite {
         //这里的矩阵是int型！！！！
         // generate two random int matrices a[m_test][k_test] and b[n_test][k_test] s.t.
         // m_test % m = 0, n_test % n = 0, k_test % pc_len = 0
-        val seq_len = 1 +3 //r.nextInt(17) //生成一个0-16的随数值 这个就是K 
-        val k_test = pc_len * seq_len
+        val seq_len = 1 +1 //r.nextInt(17) //生成一个0-16的随数值 这个就是S
+        val k_test = pc_len * seq_len     //pc_len是每次分块矩阵乘的k，是bit位数  一个vector总共有 pc_len * seq_len 个bit
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m
         val n_test = n
         println("pc_len = "+pc_len)
-        println("Set matrix left = "+m+"*"+k_test)
-        println("Set matrix left = "+k_test+"*"+n)
+        println("Set matrix left = "+m+" * "+k_test+"   Count in integer!!")
+        println("Set matrix left = "+k_test+" * "+n+"   Count in integer!!")
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
         // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
@@ -174,7 +174,7 @@ class TestDotProductArray extends JUnitSuite {
     // Chisel arguments to pass to chiselMainTest
     def testArgs = BISMOTestHelpers.stdArgs
     // function that instantiates the Module to be tested
-    val pDP = new DotProductUnitParams(8, 4)
+    val pDP = new DotProductUnitParams(4, 4)
     val p = new DotProductArrayParams(pDP, 3, 3, 0)
     def testModuleInstFxn = () ⇒ { Module(new DotProductArray(p)) }
     // function that instantiates the Tester to test the Module
