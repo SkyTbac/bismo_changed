@@ -84,7 +84,7 @@ class TestDotProductArray extends JUnitSuite {
         //这里的矩阵是int型！！！！
         // generate two random int matrices a[m_test][k_test] and b[n_test][k_test] s.t.
         // m_test % m = 0, n_test % n = 0, k_test % pc_len = 0
-        val seq_len = 1 + r.nextInt(17) //生成一个0-16的随数值 这个就是K 
+        val seq_len = 1 +3 //r.nextInt(17) //生成一个0-16的随数值 这个就是K 
         val k_test = pc_len * seq_len
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m
