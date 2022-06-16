@@ -75,7 +75,7 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
   val sIdle :: sBurst :: sRun :: Nil = Enum(UInt(), 3)
   val regState = Reg(init = UInt(sIdle))
 
-  printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
+  
   switch(regState) {
     is(sIdle) {
       io.in.ready := Bool(true)
@@ -86,6 +86,7 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
         regMaxCount := io.in.bits.count  // module文件56行 poke(c.io.in.valid, 1)
         // calculate the max count we can reach with bursts
         regMaxCountWithBurst := Cat((io.in.bits.count >> p.burstShift), UInt(0, width=p.burstShift))
+        printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
         // start by using burst step size
         regStep := io.in.bits.step << p.burstShift
       }
