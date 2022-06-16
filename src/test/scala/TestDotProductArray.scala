@@ -107,6 +107,7 @@ class TestDotProductArray extends JUnitSuite {
         // 矩阵a m*k 矩阵b k*n 这里b被转置了方便后面数据转换-147行
         val a = BISMOTestHelpers.randomIntMatrix(m_test, k_test, precA, negA)
         val b = BISMOTestHelpers.randomIntMatrix(n_test, k_test, precB, negB)
+        println("a = "+a(0))
         val golden = BISMOTestHelpers.matrixProduct(a, b)
         // clear the accumulator
         clearAcc(true)
