@@ -94,8 +94,8 @@ class TestDotProductArray extends JUnitSuite {
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
         // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
-        val precA = 1 + r.nextInt(max_shift / 2)
-        val precB = 1 + r.nextInt(max_shift / 2)
+        val precA = 1 + 1//r.nextInt(max_shift / 2)
+        val precB = 1 + 1//r.nextInt(max_shift / 2)
         println("Bit width of elements(integer) in left matrix a = "+precA)
         println("Bit width of elements(integer) in right matrix b = "+precB)
         assert(precA + precB <= max_shift)
