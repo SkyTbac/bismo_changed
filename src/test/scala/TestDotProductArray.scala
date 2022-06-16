@@ -84,19 +84,19 @@ class TestDotProductArray extends JUnitSuite {
         //这里的矩阵是int型！！！！
         // generate two random int matrices a[m_test][k_test] and b[n_test][k_test] s.t.
         // m_test % m = 0, n_test % n = 0, k_test % pc_len = 0
-        val seq_len = 1 +1 //r.nextInt(17) //生成一个0-16的随数值 这个就是S
-        val k_test = pc_len * seq_len     //pc_len是每次分块矩阵乘的k，是bit位数  一个vector总共有 pc_len * seq_len 个bit
+        val seq_len = 1  //+r.nextInt(17) //生成一个0-16的随数值 这个表示要分成几个块
+        val k_test = pc_len * seq_len     //pc_len是每次分块矩阵乘的k，每个分块一行有几个  一个vector总共有 pc_len * seq_len 个  对a 暂时垂直方向不分  同理对b 暂时水平方向不分
         // TODO add more m and n tiles, clear accumulator in between
-        val m_test = m  //暂时垂直方向不分
-        val n_test = n
+        val m_test = m  //对a 暂时垂直方向不分
+        val n_test = n  // 
         println("Set matrix left = "+m+" * "+k_test+"   Count in integer!!")
         println("Set matrix left = "+k_test+" * "+n+"   Count in integer!!")
         println("Matrix multiply block split size = "++" * "+pc_len+"   Count in integer!!")
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
         // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
-        val precA = 1 + r.nextInt(max_shift / 2)
-        val precB = 1 + r.nextInt(max_shift / 2)
+        val precA = 1 + 1//r.nextInt(max_shift / 2)
+        val precB = 1 +1//r.nextInt(max_shift / 2)
         println("Bit width of elements(integer) in left matrix a = "+precA)
         println("Bit width of elements(integer) in right matrix b = "+precB)
         assert(precA + precB <= max_shift)
@@ -114,9 +114,9 @@ class TestDotProductArray extends JUnitSuite {
         println("a = "+a(1))
         println("a = "+a(2))
         println("Matrix a ****** show in vector of each col!!")
-        println("a = "+b(0))
-        println("a = "+b(1))
-        println("a = "+b(2))
+        println("b = "+b(0))
+        println("b = "+b(1))
+        println("b = "+b(2))
         val golden = BISMOTestHelpers.matrixProduct(a, b)
         println("Matrix a*b predicted result:")
         println("c = "+golden(0))
@@ -134,13 +134,14 @@ class TestDotProductArray extends JUnitSuite {
             val negbitA = negA & (bitA == precA-1)
             val negbitB = negB & (bitB == precB-1)
             val doNeg = if(negbitA ^ negbitB) 1 else 0
+            // 枚举分块  水平方向共seq_len个分块  垂直方向并不分块！！！！
             for(s <- 0 to seq_len-1) {
               poke(c.io.clear_acc, 0) //不能清零
               poke(c.io.negate, doNeg)
+              // 开始做乘法了，设置移位flag，表示MAC完成后进行移动移位
               if(j == slice - z2 && s == 0) {
                 // new wavefront
                 // shift accumulator then accumulate
-                //此时所有需要移位j位的
                 poke(c.io.shiftAmount, 1)
               } else {
                 // within same wavefront (sum of bit positions)
@@ -164,7 +165,6 @@ class TestDotProductArray extends JUnitSuite {
               step(1)
               // emulate random pipeline bubbles
               randomNoValidWait()
-              println(c.io.out)
             }
           }
         }
