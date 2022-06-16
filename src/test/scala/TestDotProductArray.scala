@@ -89,8 +89,8 @@ class TestDotProductArray extends JUnitSuite {
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m
         val n_test = n
-        println("Set matrix left = "+m+"*"+seq_len)
-        println("Set matrix left = "+seq_len+"*"+n)
+        println("Set matrix left = "+m+"*"+k_test)
+        println("Set matrix left = "+k_test+"*"+n)
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
         // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
