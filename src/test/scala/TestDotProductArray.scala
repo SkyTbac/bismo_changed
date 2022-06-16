@@ -109,6 +109,8 @@ class TestDotProductArray extends JUnitSuite {
         val a = BISMOTestHelpers.randomIntMatrix(m_test, k_test, precA, negA)
         val b = BISMOTestHelpers.randomIntMatrix(n_test, k_test, precB, negB)
         println("a = "+a(0))
+        println("a = "+a(1))
+        println("a = "+a(2))
         val golden = BISMOTestHelpers.matrixProduct(a, b)
         // clear the accumulator
         clearAcc(true)
