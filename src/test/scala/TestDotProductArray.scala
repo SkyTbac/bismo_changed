@@ -87,16 +87,16 @@ class TestDotProductArray extends JUnitSuite {
         val seq_len = 1 +1 //r.nextInt(17) //生成一个0-16的随数值 这个就是S
         val k_test = pc_len * seq_len     //pc_len是每次分块矩阵乘的k，是bit位数  一个vector总共有 pc_len * seq_len 个bit
         // TODO add more m and n tiles, clear accumulator in between
-        val m_test = m
+        val m_test = m  //暂时垂直方向不分
         val n_test = n
-        println("pc_len = "+pc_len)
         println("Set matrix left = "+m+" * "+k_test+"   Count in integer!!")
         println("Set matrix left = "+k_test+" * "+n+"   Count in integer!!")
+        println("Matrix multiply block split size = "++" * "+pc_len+"   Count in integer!!")
         // precision in bits, each between 1 and max_shift/2 bits
         // such that their sum won't be greater than max_shift
         // 所需精度设置 每位int的长度超过测试中想要设置的最大移位的一半，不然会损失精度
-        val precA = 1 + 1//r.nextInt(max_shift / 2)
-        val precB = 1 + 1//r.nextInt(max_shift / 2)
+        val precA = 1 + r.nextInt(max_shift / 2)
+        val precB = 1 + r.nextInt(max_shift / 2)
         println("Bit width of elements(integer) in left matrix a = "+precA)
         println("Bit width of elements(integer) in right matrix b = "+precB)
         assert(precA + precB <= max_shift)
@@ -108,10 +108,18 @@ class TestDotProductArray extends JUnitSuite {
         // 矩阵a m*k 矩阵b k*n 这里b被转置了方便后面数据转换-147行
         val a = BISMOTestHelpers.randomIntMatrix(m_test, k_test, precA, negA)
         val b = BISMOTestHelpers.randomIntMatrix(n_test, k_test, precB, negB)
+        println("The maritx is generated")
+        println("Matrix a ****** show in vector of each row!")
         println("a = "+a(0))
         println("a = "+a(1))
         println("a = "+a(2))
+        println("Matrix a ****** show in vector of each col!!")
+        println("a = "+b(0))
+        println("a = "+b(1))
+        println("a = "+b(2))
         val golden = BISMOTestHelpers.matrixProduct(a, b)
+        println("Matrix a*b predicted result:")
+        println("c = "+golden(0))
         // clear the accumulator
         clearAcc(true)
         // iterate over each combination of bit positions for bit serial
@@ -121,8 +129,8 @@ class TestDotProductArray extends JUnitSuite {
           for(j <- slice - z2 to z1 by -1) {  //枚举左边矩阵需移位数 至少z1  最多slice - z2
             val bitA = j
             val bitB = slice-j
-            println("The bits LEFT matrix need shift "+bitA)
-            println("The bits RIGHT matrix need shift "+bitB)
+            println("The bits LEFT matrix need shift = "+bitA)
+            println("The bits RIGHT matrix need shift = "+bitB)
             val negbitA = negA & (bitA == precA-1)
             val negbitB = negB & (bitB == precB-1)
             val doNeg = if(negbitA ^ negbitB) 1 else 0
@@ -144,7 +152,6 @@ class TestDotProductArray extends JUnitSuite {
               for (i_m ← 0 to m - 1) {
                 val seqA_bs = BISMOTestHelpers.intVectorToBitSerial(a(i_m), precA)
                 val curA = seqA_bs(bitA).slice(s * pc_len, (s + 1) * pc_len)
-                //
                 poke(c.io.a(i_m), scala.math.BigInt.apply(curA.mkString, 2))
               }
               // insert stimulus for right-hand-side matrix tile
@@ -157,6 +164,7 @@ class TestDotProductArray extends JUnitSuite {
               step(1)
               // emulate random pipeline bubbles
               randomNoValidWait()
+              println(c.io.out)
             }
           }
         }
