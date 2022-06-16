@@ -89,6 +89,7 @@ class TestDotProductArray extends JUnitSuite {
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m
         val n_test = n
+        println("pc_len = "+pc_len)
         println("Set matrix left = "+m+"*"+k_test)
         println("Set matrix left = "+k_test+"*"+n)
         // precision in bits, each between 1 and max_shift/2 bits
