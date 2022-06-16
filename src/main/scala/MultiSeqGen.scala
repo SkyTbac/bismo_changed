@@ -81,6 +81,8 @@ class MultiSeqGen(p: MultiSeqGenParams) extends Module {
   io.out.bits := regSeqElem
 
   val sIdle :: sRun :: Nil = Enum(UInt(), 2)
+
+  //regState初始时idle
   val regState = Reg(init = UInt(sIdle))
 
   /*printf("regState = %d\n", regState)
@@ -89,6 +91,8 @@ class MultiSeqGen(p: MultiSeqGenParams) extends Module {
   printf("regMaxCount = %d\n", regMaxCount)
   printf("regStep = %d\n", regStep)*/
 
+  // sIdle=0 sRun=1 
+  // regState初始时idle io.in.valid为true时改为run
   switch(regState) {
     is(sIdle) {
       io.in.ready := Bool(true)
