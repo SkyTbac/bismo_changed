@@ -42,7 +42,7 @@ import fpgatidbits.PlatformWrapper._
 class FetchInterconnectTester(c: FetchInterconnect) extends Tester(c) {
   val r = scala.util.Random
   // number of writes to test
-  val num_writes = 100
+  val num_writes = 10
   // number of instantiated nodes
   val num_nodes = c.myP.numNodes
   // bitwidth of packet data
