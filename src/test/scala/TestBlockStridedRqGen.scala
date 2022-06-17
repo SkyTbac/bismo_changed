@@ -65,8 +65,8 @@ class BlockStridedRqGenTester(c: BlockStridedRqGen) extends Tester(c) {
     bytes_left_in_block = block_size
     while(bytes_left_in_block > 0) {
       while (peek(c.io.out.valid) != 1) { step(1) }
-      peek(c.inner_sg.regSeqElem)
       expect(c.io.out.bits.addr, base_offs + block_offs * b + (block_size - bytes_left_in_block))
+      // bytes_left_in_block = number of addr unread in block
       if(bytes_left_in_block >= intra_burst) {
         expect(c.io.out.bits.numBytes, intra_burst)
         bytes_left_in_block -= intra_burst

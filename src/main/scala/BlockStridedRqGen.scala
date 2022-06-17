@@ -67,7 +67,7 @@ class BlockStridedRqGen(
     w = mrp.addrWidth, a = mrp.addrWidth))).io
 
   val inner_sg = Module(new BurstyMultiSeqGen(new BurstyMultiSeqGenParams(
-    w = mrp.addrWidth, a = mrp.addrWidth, burstShift = 3))).io
+    w = mrp.addrWidth, a = mrp.addrWidth, burstShift = 4))).io
 
   outer_sg.in.valid := io.in.valid
   when(io.in.valid){

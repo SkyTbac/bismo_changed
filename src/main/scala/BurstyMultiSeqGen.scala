@@ -116,6 +116,7 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
         when(io.out.ready) {
           regCounter := regCounter + UInt(1)
           regSeqElem := regSeqElem + regStep
+          printf("regSeqElem = %d\n", regSeqElem)
         }
       }
     }
