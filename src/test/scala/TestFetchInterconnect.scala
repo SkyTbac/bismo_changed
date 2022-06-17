@@ -117,7 +117,7 @@ class TestFetchInterconnect extends JUnitSuite {
     // function that instantiates the Module to be tested
     def testModuleInstFxn = () => { Module(new FetchInterconnect(
       new FetchStageParams(
-        numLHSMems = 5, numRHSMems = 5,
+        numLHSMems = 2, numRHSMems = 2,
         numAddrBits = 10, mrp = PYNQZ1Params.toMemReqParams(), thrEntriesPerMem = 8
       )
     )) }
