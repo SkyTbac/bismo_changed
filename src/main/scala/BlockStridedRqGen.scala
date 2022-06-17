@@ -70,9 +70,9 @@ class BlockStridedRqGen(
     w = mrp.addrWidth, a = mrp.addrWidth, burstShift = 3))).io
 
   outer_sg.in.valid := io.in.valid
-  /*when(io.in.valid){
+  when(io.in.valid){
     printf("[HW: 2D Req gen] Started  base %d,\n block count %d,\n block step %d\n",io.in.bits.base,io.in.bits.block_count,io.in.bits.block_step  )
-  }*/
+  }
   io.in.ready := outer_sg.in.ready
   outer_sg.in.bits.init := io.in.bits.base
   outer_sg.in.bits.count := io.in.bits.block_count
