@@ -39,7 +39,7 @@ import fpgatidbits.PlatformWrapper._
 // Tester-derived class to give stimulus and observe the outputs for the
 // Module to be tested
 class BlockStridedRqGenTester(c: BlockStridedRqGen) extends Tester(c) {
-  val r = scala.util.Random
+  val r = scala.util.Random   //没用到
   val base_offs: Int = 0x1000
   val nblocks: Int = 2
   val block_offs: Int = 0x100
@@ -65,6 +65,7 @@ class BlockStridedRqGenTester(c: BlockStridedRqGen) extends Tester(c) {
     bytes_left_in_block = block_size
     while(bytes_left_in_block > 0) {
       while (peek(c.io.out.valid) != 1) { step(1) }
+      peek(c.inner_sg.regSeqElem)
       expect(c.io.out.bits.addr, base_offs + block_offs * b + (block_size - bytes_left_in_block))
       if(bytes_left_in_block >= intra_burst) {
         expect(c.io.out.bits.numBytes, intra_burst)
