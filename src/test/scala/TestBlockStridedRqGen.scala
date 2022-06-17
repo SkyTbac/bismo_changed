@@ -44,7 +44,7 @@ class BlockStridedRqGenTester(c: BlockStridedRqGen) extends Tester(c) {
   val nblocks: Int = 2
   val block_offs: Int = 0x100
   val intra_step: Int = 1
-  val intra_burst: Int = 8
+  val intra_burst: Int = 16 // 要和BlockStridedRqGen中line 70的burstShift = 3 对应 2^3
   val block_size: Int = 20
 
   poke(c.io.block_intra_step, intra_step)
