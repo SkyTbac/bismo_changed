@@ -233,8 +233,8 @@ class ExecDecoupledStage(val myP: ExecStageParams) extends Module {
   addrgen_out := addrgen_out.fromBits(addrgen.out.bits)
 
   when(addrgen.out.fire()) {
-    printf("[AddrGenOutput] " + addrgen_out.printfStr, addrgen_out.printfElems():_*)
-    println("SIZE = "+myP.getM()+" "+myP.getK()+" "+myP.getN())
+    //printf("[AddrGenOutput] " + addrgen_out.printfStr, addrgen_out.printfElems():_*)
+    //println("SIZE = "+myP.getM()+" "+myP.getK()+" "+myP.getN())
   }
   //printf("dpa valid %d clear %d shift %d ned %d \n", dpa.valid, dpa.clear_acc, dpa.shiftAmount, dpa.negate)
 
