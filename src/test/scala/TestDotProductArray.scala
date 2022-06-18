@@ -81,10 +81,9 @@ class TestDotProductArray extends JUnitSuite {
       }
 
       for (i ← 1 to num_seqs) {
-        //这里的矩阵是int型！！！！
         // generate two random int matrices a[m_test][k_test] and b[n_test][k_test] s.t.
         // m_test % m = 0, n_test % n = 0, k_test % pc_len = 0
-        val seq_len = 1  //+r.nextInt(17) //生成一个0-16的随数值 这个表示要分成几个块
+        val seq_len = 2  //+r.nextInt(17) //to set the number of blocks to split
         val k_test = pc_len * seq_len     //pc_len是每次分块矩阵乘的k，每个分块一行有几个  一个vector总共有 pc_len * seq_len 个  对a 暂时垂直方向不分  同理对b 暂时水平方向不分
         // TODO add more m and n tiles, clear accumulator in between
         val m_test = m  //对a 暂时垂直方向不分

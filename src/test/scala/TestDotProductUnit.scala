@@ -45,7 +45,7 @@ class TestDotProductUnit extends JUnitSuite {
     val num_seqs = 1
     // number of bits in each operand
     val pc_len = c.p.inpWidth
-    // max shift steps for random input 原来是8 改成2
+    // max shift steps for random input
     val max_shift = 2
     // latency from inputs changed to accumulate update
     val latency = c.p.getLatency()
