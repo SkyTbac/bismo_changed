@@ -99,7 +99,7 @@ class NewDotProductStage1(p: DotProductUnitParams) extends Bundle {
     new NewDotProductStage1(p).asInstanceOf[this.type]
 }
 
-class DotProductUnit(val p: DotProductUnitParams) extends Module {
+class DotProductUnit(val p: accWidth) extends Module {
   val io = new Bundle {
     val in = Valid(new NewDotProductStage0(p)).asInput
     val out = UInt(OUTPUT, width = p.accWidth)
