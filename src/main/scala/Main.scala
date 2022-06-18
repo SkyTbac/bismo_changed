@@ -91,8 +91,11 @@ object ChiselMain {
   def main(args: Array[String]): Unit = {
     val platformName: String = args(0)
     val targetDir: String = args(1)
+    // m
     val dpaDimLHS: Int = args(2).toInt
+    // k  k must be bigger than 
     val dpaDimCommon: Int = args(3).toInt
+    // n
     val dpaDimRHS: Int = args(4).toInt
     val memLHS: Int = args(5).toInt
     val memRHS: Int = args(6).toInt

@@ -159,6 +159,7 @@ class BitSerialMatMulParams(
     resEntriesPerMem = resEntriesPerMem,
     resMemReadLatency = 0
   )
+  printf("mrp.dataWidth = %d\n", Uint(mrp.dataWidth))
   Predef.assert(dpaDimCommon >= mrp.dataWidth)
   Predef.assert(isPow2(dpaDimCommon / mrp.dataWidth))
   Predef.assert(log2Up(lhsEntriesPerMem) <= BISMOLimits.inpBufAddrBits)
