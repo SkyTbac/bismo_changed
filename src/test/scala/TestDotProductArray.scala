@@ -183,7 +183,7 @@ class TestDotProductArray extends JUnitSuite {
     // Chisel arguments to pass to chiselMainTest
     def testArgs = BISMOTestHelpers.stdArgs
     // function that instantiates the Module to be tested
-    val pDP = new DotProductUnitParams(4, 4)
+    val pDP = new DotProductUnitParams(4, 8)
     val p = new DotProductArrayParams(pDP, 3, 3, 0)
     def testModuleInstFxn = () ⇒ { Module(new DotProductArray(p)) }
     // function that instantiates the Tester to test the Module
