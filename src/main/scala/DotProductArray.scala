@@ -83,7 +83,7 @@ class DotProductArray(val p: DotProductArrayParams) extends Module {
     }
   }
 
-  printf("Size = %d %d %d\n",UInt(p.m),UInt(p.dpuParams.inpWidth),UInt(p.n));
+  //printf("Size = %d %d %d\n",UInt(p.m),UInt(p.dpuParams.inpWidth),UInt(p.n));
 
   // connect the array of DPUs to the inputs
   for (i ← 0 to p.m - 1) {
