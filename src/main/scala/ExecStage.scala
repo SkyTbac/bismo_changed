@@ -162,6 +162,8 @@ class ExecStageTileMemIO(myP: ExecStageParams) extends Bundle {
 
   override def cloneType: this.type =
     new ExecStageTileMemIO(myP).asInstanceOf[this.type]
+
+  printf("SIZE = %d %d %d",myP.getM(),myP.getK(),myP.getN())
 }
 
 // interface towards result stage
