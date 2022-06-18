@@ -41,7 +41,7 @@ PLATFORM ?= PYNQU96
 URI = $($(PLATFORM)_URI)
 # overlay dims
 M ?= 2
-K ?= 32
+K ?= 64
 N ?= 2
 LMEM ?= 2
 RMEM ?= 2
