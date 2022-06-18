@@ -144,7 +144,7 @@ class DotProductUnit(val p: DotProductUnitParams) extends Module {
     val acc = acc_modes(regStage1_b.acc_shift)
     val contr = regStage1_b.popcountResult.zext()
     regAcc := Mux(regStage1_b.clear, SInt(0, width = p.accWidth), acc) + Mux(regStage1_b.neg, -contr, contr)
-    printf("Accumulate: regAcc = %d shiftAcc? %d clear? %d contr %d \n", regAcc, regStage1_b.acc_shift, regStage1_b.clear, contr)
+    //printf("Accumulate: regAcc = %d shiftAcc? %d clear? %d contr %d \n", regAcc, regStage1_b.acc_shift, regStage1_b.clear, contr)
   }
   // expose the accumulator output directly
   io.out := regAcc

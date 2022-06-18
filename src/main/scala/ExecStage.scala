@@ -91,7 +91,7 @@ class ExecStageParams(
   def getK(): Int = {
     return dpaParams.dpuParams.inpWidth
   }
-  // RHS rows
+  // RHS rows the matric on the right has been transposed
   def getN(): Int = {
     return dpaParams.n
   }
@@ -140,13 +140,20 @@ class ExecStageCtrlIO() extends PrintableBundle {
 
 // interface towards tile memories (LHS/RHS BRAMs)
 class ExecStageTileMemIO(myP: ExecStageParams) extends Bundle {
+  // generate a vector of size M to save the Request info of every line
+  // k=dpuParams.inpWidth= 分块矩阵的k
+  // OCMRequest contains three elem ,one is address, two is bool to identify if to write
+  // request
   val lhs_req = Vec.fill(myP.getM()) {
     new OCMRequest(myP.getK(), log2Up(myP.lhsTileMem * myP.tileMemAddrUnit)).asOutput
   }
+  // OCMResponse contains one elem : data of one address
+  // response
   val lhs_rsp = Vec.fill(myP.getM()) {
     new OCMResponse(myP.getK()).asInput
   }
   val rhs_req = Vec.fill(myP.getN()) {
+    // dataWidth = myP.getK()  means fetch the data of one line (has been transfered by p2s)
     new OCMRequest(myP.getK(), log2Up(myP.rhsTileMem * myP.tileMemAddrUnit)).asOutput
   }
   val rhs_rsp = Vec.fill(myP.getN()) {
@@ -159,6 +166,8 @@ class ExecStageTileMemIO(myP: ExecStageParams) extends Bundle {
 
 // interface towards result stage
 class ExecStageResMemIO(myP: ExecStageParams) extends Bundle {
+  // m*n requests to write result metrix back
+  // every elem width=myP.getResBitWidth()=dpuParams.accWidth
   val req = Vec.fill(myP.getM()) {
     Vec.fill(myP.getN()) {
       new OCMRequest(
@@ -221,9 +230,9 @@ class ExecDecoupledStage(val myP: ExecStageParams) extends Module {
   val addrgen_out = new ExecAddrGenOutput()
   addrgen_out := addrgen_out.fromBits(addrgen.out.bits)
 
-  /*when(addrgen.out.fire()) {
+  when(addrgen.out.fire()) {
     printf("[AddrGenOutput] " + addrgen_out.printfStr, addrgen_out.printfElems():_*)
-  }*/
+  }
   //printf("dpa valid %d clear %d shift %d ned %d \n", dpa.valid, dpa.clear_acc, dpa.shiftAmount, dpa.negate)
 
   val isLastAddr = addrgen.out.fire() & addrgen_out.last
