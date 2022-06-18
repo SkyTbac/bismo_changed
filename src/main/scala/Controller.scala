@@ -145,10 +145,10 @@ class FetchController extends BaseController(
   genInstr = new BISMOFetchRunInstruction(),
   instr2StageO = (x: BISMOFetchRunInstruction) => x.runcfg
 ){
-  /*val prevState = Reg(next=regState)
+  val prevState = Reg(next=regState)
   when(regState != prevState) {
     printf("FetchController state: %d -> %d\n", prevState, regState)
-  }*/
+  }
 }
 
 class ExecController extends BaseController(
@@ -156,10 +156,10 @@ class ExecController extends BaseController(
   genInstr = new BISMOExecRunInstruction(),
   instr2StageO = (x: BISMOExecRunInstruction) => x.runcfg
 ){
-  /*val prevState = Reg(next=regState)
+  val prevState = Reg(next=regState)
   when(regState != prevState) {
     printf("ExecController state: %d -> %d\n", prevState, regState)
-  }*/
+  }
 }
 
 class ResultController extends BaseController(
@@ -167,10 +167,10 @@ class ResultController extends BaseController(
   genInstr = new BISMOResultRunInstruction(),
   instr2StageO = (x: BISMOResultRunInstruction) => x.runcfg
 ){
-  /*val prevState = Reg(next=regState)
+  val prevState = Reg(next=regState)
   when(regState != prevState) {
     printf("ResultController state: %d -> %d\n", prevState, regState)
-  }*/
+  }
 }
 
 /*
