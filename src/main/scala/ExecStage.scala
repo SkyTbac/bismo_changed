@@ -163,7 +163,7 @@ class ExecStageTileMemIO(myP: ExecStageParams) extends Bundle {
   override def cloneType: this.type =
     new ExecStageTileMemIO(myP).asInstanceOf[this.type]
 
-  printf("SIZE = %d %d %d",myP.getM(),myP.getK(),myP.getN())
+  printf("SIZE = %d %d %d\n",myP.getM(),myP.getK(),myP.getN())
 }
 
 // interface towards result stage
@@ -234,6 +234,7 @@ class ExecDecoupledStage(val myP: ExecStageParams) extends Module {
 
   when(addrgen.out.fire()) {
     printf("[AddrGenOutput] " + addrgen_out.printfStr, addrgen_out.printfElems():_*)
+    printf("SIZE = %d %d %d\n",myP.getM(),myP.getK(),myP.getN())
   }
   //printf("dpa valid %d clear %d shift %d ned %d \n", dpa.valid, dpa.clear_acc, dpa.shiftAmount, dpa.negate)
 
@@ -247,6 +248,7 @@ class ExecDecoupledStage(val myP: ExecStageParams) extends Module {
   io.cfg.config_lhs_mem := UInt(myP.lhsTileMem)
   io.cfg.config_rhs_mem := UInt(myP.rhsTileMem)
 
+  //****************************load data to dpa****************************
   // wire up the generated sequence into the BRAM address ports, and returned
   // read data into the DPA inputs
   for(i <- 0 to myP.getM()-1) {
@@ -259,6 +261,7 @@ class ExecDecoupledStage(val myP: ExecStageParams) extends Module {
       printf("Seqgen: %d offset: %d\n", seqgen.seq.bits, io.csr.lhsOffset)
     }*/
   }
+  //****************************load data to dpa****************************
   for(i <- 0 to myP.getN()-1) {
     io.tilemem.rhs_req(i).addr := addrgen_out.rhsAddr
     io.tilemem.rhs_req(i).writeEn := Bool(false)
