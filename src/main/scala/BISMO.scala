@@ -247,6 +247,7 @@ class BitSerialMatMulAccel(
   val execOpQ = Module(new FPGAQueue(new BISMOExecRunInstruction(), myP.cmdQueueEntries)).io
   val resultOpQ = Module(new FPGAQueue(new BISMOResultRunInstruction(), myP.cmdQueueEntries)).io
   // instantiate tile memories
+  printf("6666666666666666666666666666666666666666666666666666666666666666")
   val tilemem_lhs = Vec.fill(myP.dpaDimLHS) {
     Module(new AsymPipelinedDualPortBRAM(
       p = new OCMParameters(
@@ -410,13 +411,13 @@ class BitSerialMatMulAccel(
     tilemem_lhs(m).ports(0).req := fetchStage.bram.lhs_req(m)
     tilemem_lhs(m).ports(1).req := execStage.tilemem.lhs_req(m)
     execStage.tilemem.lhs_rsp(m) := tilemem_lhs(m).ports(1).rsp
-    //when(tilemem_lhs(m).ports(0).req.writeEn) { printf("LHS BRAM %d write: addr %d data %x\n", UInt(m), tilemem_lhs(m).ports(0).req.addr, tilemem_lhs(m).ports(0).req.writeData) }
+    when(tilemem_lhs(m).ports(0).req.writeEn) { printf("LHS BRAM %d write: addr %d data %x\n", UInt(m), tilemem_lhs(m).ports(0).req.addr, tilemem_lhs(m).ports(0).req.writeData) }
   }
   for(m <- 0 until myP.dpaDimRHS) {
     tilemem_rhs(m).ports(0).req := fetchStage.bram.rhs_req(m)
     tilemem_rhs(m).ports(1).req := execStage.tilemem.rhs_req(m)
     execStage.tilemem.rhs_rsp(m) := tilemem_rhs(m).ports(1).rsp
-    //when(tilemem_rhs(m).ports(0).req.writeEn) { printf("RHS BRAM %d write: addr %d data %x\n", UInt(m), tilemem_rhs(m).ports(0).req.addr, tilemem_rhs(m).ports(0).req.writeData) }
+    when(tilemem_rhs(m).ports(0).req.writeEn) { printf("RHS BRAM %d write: addr %d data %x\n", UInt(m), tilemem_rhs(m).ports(0).req.addr, tilemem_rhs(m).ports(0).req.writeData) }
   }
 
   // wire-up: shared resource management

@@ -93,7 +93,7 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
 
     is(sBurst) {
       // produce burst-sized steps
-      printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
+      //printf("regMaxCountWithBurst = %d\n", regMaxCountWithBurst)
       when(regCounter === regMaxCountWithBurst) {
         regState := sRun
         // switch back to unit step size
@@ -116,7 +116,7 @@ class BurstyMultiSeqGen(p: BurstyMultiSeqGenParams) extends Module {
         when(io.out.ready) {
           regCounter := regCounter + UInt(1)
           regSeqElem := regSeqElem + regStep
-          printf("regSeqElem = %d\n", regSeqElem)
+          //printf("regSeqElem = %d\n", regSeqElem)
         }
       }
     }
