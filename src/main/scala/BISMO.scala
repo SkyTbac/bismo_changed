@@ -247,7 +247,7 @@ class BitSerialMatMulAccel(
   val execOpQ = Module(new FPGAQueue(new BISMOExecRunInstruction(), myP.cmdQueueEntries)).io
   val resultOpQ = Module(new FPGAQueue(new BISMOResultRunInstruction(), myP.cmdQueueEntries)).io
   // instantiate tile memories
-  printf("6666666666666666666666666666666666666666666666666666666666666666\n")
+  printf("myP.lhsEntriesPerMem= myP.dpaDimCommon\n")
   val tilemem_lhs = Vec.fill(myP.dpaDimLHS) {
     Module(new AsymPipelinedDualPortBRAM(
       p = new OCMParameters(

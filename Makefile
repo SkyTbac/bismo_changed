@@ -41,10 +41,10 @@ PLATFORM ?= PYNQU96
 URI = $($(PLATFORM)_URI)
 # overlay dims
 M ?= 2
-K ?= 64
+K ?= 8
 N ?= 2
-LMEM ?= 1024
-RMEM ?= 1024
+LMEM ?= 4
+RMEM ?= 4
 O ?= 64
 F ?= true
 OVERLAY_CFG = $(M)x$(K)x$(N)
