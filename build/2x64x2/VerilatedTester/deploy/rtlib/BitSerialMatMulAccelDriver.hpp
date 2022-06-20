@@ -514,6 +514,7 @@ void setup_p2s(
   // ensure #cols is divisible by P2S_ALIGN
   assert(cols % P2S_ALIGN == 0);
   size_t col_groups = cols / P2S_ALIGN;
+  cout<<"----- "<<cols<<endl;
   m_accel->set_cmdqueue_valid(false);
   m_accel->set_cmdqueue_bits_dramBaseAddrSrc((AccelDblReg) accel_buf_src);
   // cout << "[SW] DRAM Base Addr Src" << accel_buf << endl;
